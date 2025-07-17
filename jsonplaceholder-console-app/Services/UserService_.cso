@@ -1,0 +1,111 @@
+namespace Serviceo;
+using System.Threading.Tasks;
+
+class User
+{
+    public int id { get; set; }
+    public string email { get; set; } = "";
+    public string name { get; set; } = "";
+    public string phone { get; set; } = "";
+    public string website { get; set; } = "";
+    private bool userExists;
+    private static User _instance;
+    private static readonly object _lock = new object(); // just object variable to control access to the lock block
+
+    // private User() { } // private constructor -- so cant take object
+
+    public static User instance()
+    {
+
+        if (_instance == null) // check if instance is null 
+        {
+            lock (_lock) // Thread safety -- prevent multiple threads from accessing the same block of code at the same time
+            {
+                if (_instance == null) // check one more time inside lock to insure no thread work on creating the instance while lock check the threads
+                {
+                    _instance = new User();
+                }
+            }
+        }
+        return _instance;
+    }
+    public async Task<bool> Auth(string email)
+    {
+        // http client to check if user exists
+        try 
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync("https://jsonplaceholder.typicode.com/users");
+                if (response.IsSuccessStatusCode)
+                {
+                    // read the json as string
+                    string json = await response.Content.ReadAsStringAsync();
+
+                    // convert json to objects with case sensitive option 
+                    List<User>? users = JsonHelper.deserializeJson<User>(json);
+                    // check if email is correct and found inside json
+                    userExists = (users == null) ? false : users.Exists(user => user.email.Equals(email));
+
+                    // get user data by email
+                    if (users != null)
+                    {
+                        User? userInfo = users.FirstOrDefault(user => user.email.Equals(email));
+                        if (userInfo != null)
+                        {
+                            email = userInfo.email;
+                            id = userInfo.id;
+                            name = userInfo.name;
+                            phone = userInfo.phone;
+                            website = userInfo.website;
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Error : {e.Message}");
+        }
+        return userExists;
+    }
+    // get profile information
+    public Dictionary<string, string> profileInfo()
+    {
+        Dictionary<string, string> userData = new() // simle way to create object
+        {
+            { "name", name },
+            { "email", email },
+            { "phone", phone },
+            { "website", website }
+        };
+        return userData;
+    }
+
+    // get user posts 
+    public async Task<List<Post>> posts(int id)
+    {
+        List<Post>? posts = new List<Post>();
+        try
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync($"https://jsonplaceholder.typicode.com/users/{id}/posts");
+                if (response.IsSuccessStatusCode)
+                {
+                    // read the json as string
+                    string json = await response.Content.ReadAsStringAsync();
+                    posts = JsonHelper.deserializeJson<Post>(json);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Error : {e.Message}");
+        }
+        return posts;
+    }
+    
+    // add new post
+
+}

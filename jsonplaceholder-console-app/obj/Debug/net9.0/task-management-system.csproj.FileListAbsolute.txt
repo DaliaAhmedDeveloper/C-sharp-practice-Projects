@@ -1,0 +1,14 @@
+D:\study\c#\blog-management-system\bin\Debug\net9.0\task-management-system.exe
+D:\study\c#\blog-management-system\bin\Debug\net9.0\task-management-system.deps.json
+D:\study\c#\blog-management-system\bin\Debug\net9.0\task-management-system.runtimeconfig.json
+D:\study\c#\blog-management-system\bin\Debug\net9.0\task-management-system.dll
+D:\study\c#\blog-management-system\bin\Debug\net9.0\task-management-system.pdb
+D:\study\c#\blog-management-system\obj\Debug\net9.0\task-management-system.GeneratedMSBuildEditorConfig.editorconfig
+D:\study\c#\blog-management-system\obj\Debug\net9.0\task-management-system.AssemblyInfoInputs.cache
+D:\study\c#\blog-management-system\obj\Debug\net9.0\task-management-system.AssemblyInfo.cs
+D:\study\c#\blog-management-system\obj\Debug\net9.0\task-management-system.csproj.CoreCompileInputs.cache
+D:\study\c#\blog-management-system\obj\Debug\net9.0\task-management-system.dll
+D:\study\c#\blog-management-system\obj\Debug\net9.0\refint\task-management-system.dll
+D:\study\c#\blog-management-system\obj\Debug\net9.0\task-management-system.pdb
+D:\study\c#\blog-management-system\obj\Debug\net9.0\task-management-system.genruntimeconfig.cache
+D:\study\c#\blog-management-system\obj\Debug\net9.0\ref\task-management-system.dll
